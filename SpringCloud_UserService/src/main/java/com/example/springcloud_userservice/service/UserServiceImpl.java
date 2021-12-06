@@ -5,15 +5,19 @@ import com.example.springcloud_userservice.dto.UserDto;
 import com.example.springcloud_userservice.jpa.UserEntity;
 import com.example.springcloud_userservice.jpa.UserRepository;
 import com.example.springcloud_userservice.service.UserService;
+import com.example.springcloud_userservice.vo.ResponseOrder;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,4 +47,25 @@ public class UserServiceImpl implements UserService {
 
         return returnUserDto;
     }
+
+    @Override
+    public UserDto getUserByUserId(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+
+        if (userEntity == null) throw new UsernameNotFoundException("User not found");
+        // map(바꿀 대상, 얘의 형태로)
+        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+
+        List<ResponseOrder> orders = new ArrayList<>();
+        userDto.setOrders(orders);
+
+        return userDto;
+    }
+
+    @Override
+    public Iterable<UserEntity> getUserByAll() {
+        return userRepository.findAll();
+    }
+
+
 }
