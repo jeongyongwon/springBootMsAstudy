@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
-public class CustomFilter  extends AbstractGatewayFilterFactory<CustomFilter.Config> {
+public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Config> {
     public CustomFilter() {
         super(Config.class);
     }
@@ -20,13 +20,13 @@ public class CustomFilter  extends AbstractGatewayFilterFactory<CustomFilter.Con
         //Custom Pre Filter
 
         return ((exchange, chain) -> {
-            ServerHttpRequest request =  exchange.getRequest();
-            ServerHttpResponse response =  exchange.getResponse();
+            ServerHttpRequest request = exchange.getRequest();
+            ServerHttpResponse response = exchange.getResponse();
 
             log.info("Custom PRE com.example.apigatewayservice.filter : requset id -> {}", request.getId());
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                log.info("Custom POST com.example.apigatewayservice.filter : response code -> {}" , response.getStatusCode());
+                log.info("Custom POST com.example.apigatewayservice.filter : response code -> {}", response.getStatusCode());
             }));
         });
     }

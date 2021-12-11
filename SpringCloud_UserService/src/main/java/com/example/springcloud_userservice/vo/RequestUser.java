@@ -11,16 +11,16 @@ import javax.validation.constraints.Size;
 public class RequestUser {
 
     @NotNull(message = "email cannot null")
-    @Size(min=2, message = "email up 2char")
+    @Size(min = 2, message = "email up 2char")
     @Email
     private String email;
 
     @NotNull(message = "Name cannot null")
-    @Size(min=2, message = "Name not be less than two characters")
+    @Size(min = 2, message = "Name not be less than two characters")
     private String name;
 
     @NotNull(message = "password cannot null")
-    @Size(min=8, message = "pwd 8char")
+    @Size(min = 8, message = "pwd 8char")
     private String pwd;
 
 }

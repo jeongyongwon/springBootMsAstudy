@@ -22,17 +22,17 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
         //Custom Pre Filter
 
         return ((exchange, chain) -> {
-            ServerHttpRequest request =  exchange.getRequest();
-            ServerHttpResponse response =  exchange.getResponse();
+            ServerHttpRequest request = exchange.getRequest();
+            ServerHttpResponse response = exchange.getResponse();
 
             log.info("Custom PRE com.example.apigatewayservice.filter : requset id -> {}", config.getBaseMessage());
 
-            if(config.isPreLogger()) {
+            if (config.isPreLogger()) {
                 log.info("Global Filter Start : requset id -> {}", request.getId());
             }
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                if(config.isPostLogger()) {
+                if (config.isPostLogger()) {
                     log.info("Global Filter End : response id -> {}", response.getStatusCode());
                 }
             }));

@@ -38,18 +38,18 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
 //                }
 //            }));
 //        });
-        GatewayFilter filter = new OrderedGatewayFilter((exchange,chain) -> {
-            ServerHttpRequest request =  exchange.getRequest();
-            ServerHttpResponse response =  exchange.getResponse();
+        GatewayFilter filter = new OrderedGatewayFilter((exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+            ServerHttpResponse response = exchange.getResponse();
 
             log.info("Logging Filter BaseMessage : {}", config.getBaseMessage());
 
-            if(config.isPreLogger()) {
+            if (config.isPreLogger()) {
                 log.info("Logging PRE Filter : requset id -> {}", request.getId());
             }
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                if(config.isPostLogger()) {
+                if (config.isPostLogger()) {
                     log.info("Logging POST Filter End : response code -> {}", response.getStatusCode());
                 }
             }));

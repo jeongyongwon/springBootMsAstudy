@@ -30,12 +30,11 @@ public class UserController {
     }
 
 
-
     @Autowired
     private UserServiceImpl userService;
 
     @Autowired
-    private  Environment env;
+    private Environment env;
 
     @GetMapping("/welcome")
     public String welcome() {
@@ -50,7 +49,7 @@ public class UserController {
         UserDto userDto = mapper.map(user, UserDto.class);
 
         Logger logger = LoggerFactory.getLogger(UserController.class);
-        logger.info("userDto :  "  + userDto);
+        logger.info("userDto :  " + userDto);
 
         userService.createUser(userDto);
 
