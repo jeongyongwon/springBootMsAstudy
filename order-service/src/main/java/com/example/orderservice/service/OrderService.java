@@ -1,9 +1,9 @@
-package service;
+package com.example.orderservice.service;
 
 
 
-import dto.OrderDto;
-import jpa.OrderEntity;
+import com.example.orderservice.dto.OrderDto;
+import com.example.orderservice.jpa.OrderEntity;
 
 public interface OrderService {
 

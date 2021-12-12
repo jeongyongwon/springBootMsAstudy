@@ -1,4 +1,4 @@
-package jpa;
+package com.example.orderservice.jpa;
 
 
 import lombok.Data;

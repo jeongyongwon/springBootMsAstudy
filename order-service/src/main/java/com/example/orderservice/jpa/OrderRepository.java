@@ -1,6 +1,5 @@
-package jpa;
+package com.example.orderservice.jpa;
 
-import org.hibernate.criterion.Order;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
