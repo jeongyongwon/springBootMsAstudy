@@ -16,12 +16,16 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
 
     @GetMapping("/health_check")
@@ -36,9 +40,14 @@ public class UserController {
     @Autowired
     private Environment env;
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping("/welcome")
     public String welcome() {
-        return env.getProperty("greeting.msg");
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        ip = req.getRemoteAddr();
+        return env.getProperty("greeting.msg") + ":  " +   ip ;
     }
 
     @PostMapping("/users")
@@ -78,4 +87,5 @@ public class UserController {
         ResponseUser returnValue = new ModelMapper().map(userDto, ResponseUser.class);
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
+
 }

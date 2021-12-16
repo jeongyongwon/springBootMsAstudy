@@ -6,12 +6,13 @@ import com.example.springcloud_userservice.jpa.UserEntity;
 import com.example.springcloud_userservice.jpa.UserRepository;
 import com.example.springcloud_userservice.service.UserService;
 import com.example.springcloud_userservice.vo.ResponseOrder;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,16 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(username);
+
+        if (userEntity == null) throw new UsernameNotFoundException(username);
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPwd(), true, true, true, true,
+                new ArrayList<>()); // 빈 리스트에 권한을 추가하는 작업이다
+    }
+
     @Autowired
     UserRepository userRepository;
 
@@ -33,13 +44,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        this.logger.info("????  :  ");
+        //this.logger.info("????  :  ");
         userDto.setUserId(UUID.randomUUID().toString());
 
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class); // userDto를 UserEntity class 로 변경해주세요
-        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
+        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(userEntity);
 

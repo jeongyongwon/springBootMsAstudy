@@ -14,10 +14,37 @@ spring:
   cloud:
     gateway:
       routes:
+#        - id: user-service
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/user-service/**
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/login
+            - Method=POST
+          filters: # 변환작업
+            - RemoveRequestHeader=Cookie  # 매번 요청마다 헤더값 삭제
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # , 앞의 형식으로 들어오면 뒤의 형식으로 바꾸겟단 이야기
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/users
+            - Method=POST
+          filters: # 변환작업
+            - RemoveRequestHeader=Cookie  # 매번 요청마다 헤더값 삭제
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # , 앞의 형식으로 들어오면 뒤의 형식으로 바꾸겟단 이야기
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
+            - Method=GET
+          filters: # 변환작업
+            - RemoveRequestHeader=Cookie  # 매번 요청마다 헤더값 삭제
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # , 앞의 형식으로 들어오면 뒤의 형식으로 바꾸겟단 이야기
 
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
