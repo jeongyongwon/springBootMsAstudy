@@ -21,7 +21,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         try {
             RequestLogin creds = new ObjectMapper().readValue(request.getInputStream(), RequestLogin.class);
-            logger.info("creds  :   "  + creds);
+            logger.info("creds --------------- :   "  + creds);
             //logger.info("request.getInputStream()   " + request.getInputStream());
             //사용자가 입력한 정보를 넘기면 ID와 PWD를 비교해줌 SECURITY 자체에서 / 그런다음 토큰으로 반환
             // 그리고 getAuthenticationManager()를 통해 인증작업 요청

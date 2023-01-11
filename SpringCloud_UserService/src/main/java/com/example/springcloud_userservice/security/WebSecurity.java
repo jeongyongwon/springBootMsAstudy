@@ -1,9 +1,6 @@
 package com.example.springcloud_userservice.security;
 
-import com.example.springcloud_userservice.controller.UserController;
 import com.example.springcloud_userservice.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -12,11 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.Filter;
-import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +23,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment env;
 
+    private String IP_ADDRESS = "192.168.1.114";
+
     //권한에 관련된 내용
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,12 +35,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         //모든 코드에 관해서 통과시키지 않을것
         //특정ip만 허용
+        String IP_ADDRESS = "192.168.1.114";
 
         http.authorizeRequests()
-                        .antMatchers("/**")
-                        .hasIpAddress("192.168.1.113")
-                        .and()
-                        .addFilter(getAuthenticationFilter());
+                .antMatchers("/error/**").permitAll()
+                .antMatchers("/**")
+                .access("hasIpAddress('"+IP_ADDRESS+"')")
+                .and()
+                .addFilter(getAuthenticationFilter());
 
         http.headers().frameOptions().disable();
     }
