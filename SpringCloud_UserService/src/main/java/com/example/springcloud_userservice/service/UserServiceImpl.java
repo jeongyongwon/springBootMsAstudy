@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class); // userDto를 UserEntity class 로 변경해주세요
-        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPassword()));
+        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
 
         userRepository.save(userEntity);
 

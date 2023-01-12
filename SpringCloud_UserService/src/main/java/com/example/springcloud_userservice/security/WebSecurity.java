@@ -35,12 +35,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         //모든 코드에 관해서 통과시키지 않을것
         //특정ip만 허용
-        String IP_ADDRESS = "192.168.1.114";
 
         http.authorizeRequests()
                 .antMatchers("/error/**").permitAll()
-                .antMatchers("/**")
-                .access("hasIpAddress('"+IP_ADDRESS+"')")
+                .antMatchers("/**").permitAll()
                 .and()
                 .addFilter(getAuthenticationFilter());
 

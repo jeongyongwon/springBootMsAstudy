@@ -17,6 +17,6 @@ public class RequestLogin {
 
     @NotNull(message = "Password Cannot Be null")
     @Size(min = 8, message = "Password not be greater than eight  characters")
-    private String password;
+    private String pwd;
 
 }
