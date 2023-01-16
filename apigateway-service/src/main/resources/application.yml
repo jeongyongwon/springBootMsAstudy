@@ -74,3 +74,7 @@ spring:
             preLogger: true
             postLogger: true
 
+
+token:
+  expiration_time: 86400000
+  secret: user_token
