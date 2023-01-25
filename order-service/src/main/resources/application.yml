@@ -14,7 +14,7 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: update # ????? ????
+      ddl-auto: update
     show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
