@@ -1,0 +1,30 @@
+version: '3'
+services:
+  connector:
+    container_name: "connector"
+    image: confluentinc/cp-kafka-connect:7.0.1
+    ports:
+      - 8083:8083
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+      CONNECT_REST_PORT: 8083      
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/etc/kafka-connect/jars"
+      CONNECT_GROUP_ID: "console-consumer-78317"
+      CONNECT_CONFIG_STORAGE_TOPIC: "quickstart-events-config" # 우선 랜덤으로 생성됨으로 이후 작업할 예정
+      CONNECT_OFFSET_STORAGE_TOPIC: "quickstart-events-offsets"
+      CONNECT_STATUS_STORAGE_TOPIC: "quickstart-events-status"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1      
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter" 
+      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
+      CONNECT_LOG4J_ROOT_LOGLEVEL: DEBUG           
+
+
+networks:
+  default:
+    external:
+      name: cozy-kafka  

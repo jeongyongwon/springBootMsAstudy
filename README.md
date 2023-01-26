@@ -12,7 +12,7 @@
 
 
 
-## Kafka Topic 목록 확인
+## Kafka Topic 목록 및 상태 확인
 
 ```BASH
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
@@ -44,13 +44,20 @@
 
 
 
+## Consumer 목록 및 상태 확인
+
+```bash
+./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+./bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe
+```
+
 
 
 
 
 ----
 
-# Docker - MYSQL - H2 console
+# Docker - MYSQL - H2 console 
 
 
 
@@ -102,5 +109,43 @@ CREATE USER 'asdfg0237'@'172.17.0.1' IDENTIFIED BY '1234';
 GRANT ALL PRIVILEGES ON *.* TO 'asdfg0237'@'172.17.0.1' WITH GRANT OPTION;
 flush privileges;
 exit
+```
+
+
+
+## 테이블 생성
+
+```mysql
+CREATE table users(
+	id int auto_increment primary key,
+    user_id varchar(20),
+    pwd varchar(20),
+    name varchar(20),
+    created_at datetime default NOW()
+);
+```
+
+
+
+----
+
+# Kafka Connector + Docker setting
+
+> **Kafka Connect**
+>
+> ```bash
+> curl -O http://packages.confluent.io/archive/5.5/confluent-community-5.5.2-2.12.tar.gz
+> ```
+>
+> **JDBC Connector**
+>
+> - [JDBC Connector (Source and Sink) | Confluent Hub](https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc)
+
+
+
+## Kafka Connect Docker 실행
+
+```bash
+docker-compose -f ./docker-file/kafka-connector/docker-compose.yml up -d
 ```
 
