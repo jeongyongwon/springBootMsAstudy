@@ -23,9 +23,10 @@ services:
       KAFKA_CREATE_TOPICS: "quickstart-events:1:1" # Topic명:Partition개수:Replica개수
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock      
+      # - /kafka-connect-jdbc:/opt/kafka_2.13-2.8.1
     # entrypoint: "echo docker-kafka run"
            
-networks:
-  default:
-    external:
-      name: cozy-kafka
+# networks:
+#   default:
+#     external:
+#       name: cozy-kafka

@@ -22,9 +22,11 @@ services:
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter" 
       CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
       CONNECT_LOG4J_ROOT_LOGLEVEL: DEBUG           
+    # volumes:
+      # - ./jars:/etc/kafka-connect/jars
+      # - ./test:/etc/kafka-connect/jars
 
-
-networks:
-  default:
-    external:
-      name: cozy-kafka  
+# networks:
+#   default:
+#     external:
+#       name: cozy-kafka  
