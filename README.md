@@ -39,7 +39,7 @@
 ## Message 소비
 
 ```bash
-./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic quickstart-events --from-beginning
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic quickstart-events --group quick-group --from-beginning
 ```
 
 
